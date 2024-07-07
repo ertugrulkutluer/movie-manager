@@ -27,7 +27,7 @@ The Movie Management System is a RESTful API built using Node.js and the NestJS 
 - **Validation:** DTOs
 - **Swagger:** API documentation
 - **Testing:** Unit and end-to-end tests
-- **Deployment and CI/CD:** Render
+- **Deployment and CI/CD:** Auto Deploy from Github on Render
 
 ## Setup and Installation
 
