@@ -4,14 +4,16 @@
 
 The Movie Management System is a RESTful API built using Node.js and the NestJS framework. This application allows users to manage movies, users, and tickets. The API provides endpoints for user registration, login, managing movies, purchasing tickets, and viewing watch history.
 
+
+### Live URL: [Click here to open the URL](https://movie-manager-ql31.onrender.com/)
+### API Documentation: [Click here to access the API documentation](https://movie-manager-ql31.onrender.com/docs)
+
 ## Features
 
 - **User Registration and Login:** Users can register and log in with a username, password, and age. There are two types of users: managers and customers.
 - **Manage Movies:** Managers can add, modify, and delete movies. Each movie has a name, age restriction, and multiple sessions. Sessions include a date, time slot, and room number.
 - **List Movies:** All users can view a list of available movies.
 - **Buy Tickets:** Customers can buy tickets for specific movie sessions.
-- **Watch Movies:** Customers can watch movies for which they have valid tickets.
-- **View Watch History:** Customers can view a list of movies they've watched.
 - **Bulk Addition and Deletion:** Bulk addition and deletion feature for movies.
 - **Conflict Check:** Logic checks when adding movies to prevent double-booking of rooms.
 - **Sorting and Filtering:** Movie listings can be sorted and filtered by different fields.
@@ -25,6 +27,7 @@ The Movie Management System is a RESTful API built using Node.js and the NestJS 
 - **Validation:** DTOs
 - **Swagger:** API documentation
 - **Testing:** Unit and end-to-end tests
+- **Deployment and CI/CD:** Render
 
 ## Setup and Installation
 
@@ -60,6 +63,18 @@ The Movie Management System is a RESTful API built using Node.js and the NestJS 
     ```
     http://localhost:3002/docs
 
+6. Run the tests:
+    ```bash
+    # Unit tests
+    npm run test
+    # or
+    yarn test
+    
+    # End to End tests
+    npm run test:e2e
+    # or
+    yarn test:e2e
+
 ## Usage
 ### Endpoints
 
@@ -82,13 +97,13 @@ The Movie Management System is a RESTful API built using Node.js and the NestJS 
 
 -   **Buy Ticket:** `POST /tickets`
 -   **Get All Tickets:** `GET /tickets`
--   **Get Tickets by User ID:** `GET /tickets/user/:userId`
+-   **Get Tickets by User ID:** `GET /tickets/user`
 -   **Get Ticket by ID:** `GET /tickets/:id`
 -   **Delete Ticket by ID:** `DELETE /tickets/:id`
 
 ### Swagger Documentation
 
-The API documentation is available at `/docs`.
+API Documentation: [Click here to access the API documentation](https://movie-manager-ql31.onrender.com/docs)
 
 ## Project Structure
 ```bash
@@ -113,6 +128,7 @@ The API documentation is available at `/docs`.
 │   │   ├── services
 
 │   │   │   └── auth.service.ts
+│   │   │   └── auth.service.spec.ts
 
 │   │   ├── strategies
 
@@ -147,6 +163,7 @@ The API documentation is available at `/docs`.
 │   │   ├── services
 
 │   │   │   └── movie.service.ts
+│   │   │   └── movie.service.spec.ts
 
 │   │   ├── movie.module.ts
 
@@ -163,6 +180,7 @@ The API documentation is available at `/docs`.
 │   │   ├── services
 
 │   │   │   └── ticket.service.ts
+│   │   │   └── ticket.service.spec.ts
 
 │   │   ├── ticket.module.ts
 
@@ -195,6 +213,16 @@ The API documentation is available at `/docs`.
 │       ├── user.entity.ts
 
 │       └── ticket.entity.ts
+
+├── test
+
+│   ├── e2e
+
+│   │   ├── app.e2e-spec.ts
+
+│   ├──  setup.ts
+
+│   ├──  setupAfterEnv.ts
 
 ├── main.ts
 
