@@ -1,9 +1,10 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { MovieRepository } from '../../domain/repositories/movie.repository';
-import { Movie } from '../../domain/entities/movie.entity';
-import { FilterSortMovieDto} from "../dtos/movie/filter-movie.dto";
-import { CreateMovieDto } from "../dtos/movie/create-movie.dto";
-import {UpdateMovieDto} from "../dtos/movie/update-movie.dto";
+import { MovieRepository } from '../../../domain/repositories/movie.repository';
+import { Movie } from '../../../domain/entities/movie.entity';
+import { FilterSortMovieDto} from "../dtos/filter-movie.dto";
+import { CreateMovieDto } from "../dtos/create-movie.dto";
+import { UpdateMovieDto } from "../dtos/update-movie.dto";
+import mongoose from "mongoose";
 
 @Injectable()
 export class MovieService {
@@ -60,5 +61,9 @@ export class MovieService {
 
     async deleteMovies(ids: string[]): Promise<{ deletedCount?: number }> {
         return await this.movieRepository.deleteMovies(ids);
+    }
+
+    async findByIds(ids: mongoose.Types.ObjectId[]): Promise<Movie[]> {
+        return this.movieRepository.findByIds(ids);
     }
 }

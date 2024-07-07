@@ -1,12 +1,22 @@
-import {Controller, Get, Post, Body, Param, Put, Delete, Query, UseGuards} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Param,
+    Put,
+    Delete,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
 import { MovieService } from '../services/movie.service';
-import {ApiTags, ApiOperation, ApiResponse, ApiBearerAuth} from '@nestjs/swagger';
-import { CreateMovieDto } from '../dtos/movie/create-movie.dto';
-import { JwtAuthGuard } from "../guards/jwt-auth.guard";
-import {FilterSortMovieDto} from "../dtos/movie/filter-movie.dto";
-import {UpdateMovieDto} from "../dtos/movie/update-movie.dto";
-import {RolesGuard} from "../guards/roles.guard";
-import {Roles} from "../decorators/roles.decorator";
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { CreateMovieDto } from '../dtos/create-movie.dto';
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { FilterSortMovieDto } from "../dtos/filter-movie.dto";
+import { UpdateMovieDto } from "../dtos/update-movie.dto";
+import { RolesGuard } from "../../auth/guards/roles.guard";
+import { Roles } from "../../auth/decorators/roles.decorator";
 
 @ApiTags('movies')
 @ApiBearerAuth('access-token')

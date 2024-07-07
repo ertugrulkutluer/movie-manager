@@ -2,9 +2,10 @@ import {Injectable, NotFoundException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Movie, MovieDocument } from '../entities/movie.entity';
-import { FilterSortMovieDto } from "../../app/dtos/movie/filter-movie.dto";
-import { CreateMovieDto } from "../../app/dtos/movie/create-movie.dto";
-import {UpdateMovieDto} from "../../app/dtos/movie/update-movie.dto";
+import { FilterSortMovieDto } from "../../app/movie/dtos/filter-movie.dto";
+import { CreateMovieDto } from "../../app/movie/dtos/create-movie.dto";
+import { UpdateMovieDto } from "../../app/movie/dtos/update-movie.dto";
+import mongoose from "mongoose";
 
 @Injectable()
 export class MovieRepository {
@@ -95,6 +96,10 @@ export class MovieRepository {
         } catch (error) {
             throw new Error(`Failed to check for session conflict: ${error.message}`);
         }
+    }
+
+    async findByIds(ids: mongoose.Types.ObjectId[]): Promise<MovieDocument[]> {
+        return this.movieModel.find({ _id: { $in: ids.map(id => id) } }).exec();
     }
 
     private buildFilterObject(filters: FilterSortMovieDto): any {

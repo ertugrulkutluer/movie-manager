@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards } from '@nestjs/common';
+import {Controller, Get, Post, Body, Param, Delete, UseGuards, Req, Query} from '@nestjs/common';
 import { TicketService } from '../services/ticket.service';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { CreateTicketDto } from '../dtos/ticket/create-ticket.dto';
+import {ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery} from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { CreateTicketDto } from '../dtos/create-ticket.dto';
+import {RequestWithUser} from "../../auth/interfaces/request-with-user.interface";
 
 @ApiTags('tickets')
 @ApiBearerAuth('access-token')
@@ -25,11 +26,18 @@ export class TicketController {
         return this.ticketService.findAll();
     }
 
-    @Get('user/:userId')
-    @ApiOperation({ summary: 'Get tickets by user ID' })
+    @Get('user')
+    @ApiOperation({
+        summary: 'Get tickets by user ID',
+        description: 'Retrieve all tickets for a specific user. ' +
+            'If a userId query parameter is provided, it will be used to find the user. ' +
+            'If not, the user ID will be extracted from the token.'
+    })
+    @ApiQuery({ name: 'userId', required: false, description: 'User ID (optional, defaults to user in token)' })
     @ApiResponse({ status: 200, description: 'Return all tickets for a specific user.' })
-    async findByUserId(@Param('userId') userId: string) {
-        return this.ticketService.findByUserId(userId);
+    async findByUserId(@Req() req: RequestWithUser, @Query('userId') userId?: string) {
+        const id = userId || req.user.userId;
+        return this.ticketService.findByUserId(id);
     }
 
     @Get(':id')

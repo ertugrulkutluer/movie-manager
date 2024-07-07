@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Ticket, TicketDocument } from '../entities/ticket.entity';
-import { CreateTicketDto } from '../../app/dtos/ticket/create-ticket.dto';
+import { CreateTicketDto } from '../../app/ticket/dtos/create-ticket.dto';
 import * as mongoose from 'mongoose';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class TicketRepository {
 
     async findByUserId(userId: string): Promise<any[]> {
         try {
-            const pipeline = this.buildAggregationPipeline({ userId });
+            const pipeline = this.buildAggregationPipeline({ userId: new mongoose.Types.ObjectId(userId) });
             return await this.ticketModel.aggregate(pipeline).exec();
         } catch (error) {
             throw new Error(`Failed to find tickets for user with id ${userId}: ${error.message}`);
