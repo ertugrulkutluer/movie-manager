@@ -3,11 +3,13 @@ import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import * as process from "process";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {NestExpressApplication} from "@nestjs/platform-express";
+import { join } from 'path';
 
 dotenv.config();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const config = new DocumentBuilder()
       .setTitle('Movie Management API')
@@ -25,6 +27,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(process.env.PORT);
+  app.useStaticAssets(join(__dirname, '..', 'static'), {
+      prefix: '/docs',
+  });
+
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
